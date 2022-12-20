@@ -20,7 +20,12 @@ class Genre(models.Model):
 
     def __str__(self) -> str:
         return self.title
+    
+    class Meta:
+        verbose_name = "Жанр"
+        verbose_name_plural = "Жанры"
 
+    
 class Country(models.Model):
     title = models.CharField(max_length=100)
 
@@ -33,7 +38,7 @@ class Country(models.Model):
 
 
 class Movie(models.Model):
-    genre = models.ManyToManyField(Genre, related_name='genre_movie')
+    # genre = models.CharField(choices=GENRE, max_length=100 , blank=True)
     country = models.ForeignKey(Country, related_name='country_movie', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
