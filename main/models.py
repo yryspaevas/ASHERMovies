@@ -5,9 +5,14 @@ GENRE = [
     ('ACTION', 'Action'),
     ('ADVENTURE', 'Adventure'),
     ('COMEDY', 'Comedy'),
+    ('DRAMA', 'drama'),
     ('FANTASY', 'Fantasy'),
     ('HORROR', 'Horror'),
+    ('MUSICALS', 'Musicals'),
+    ('MYSTERY', 'Mystery'),
+    ('ROMANCE', 'Romance'),
     ('THRILLER', 'Thriller'),
+    ('WESTERN', 'Western')
 ]
 
 class Genre(models.Model):
