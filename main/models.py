@@ -18,7 +18,7 @@ from account.models import User
 class Genre(models.Model):
     title = models.CharField(max_length=100)
 
-    def str(self):
+    def __str__(self):
         return self.title
     
     class Meta:
