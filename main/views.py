@@ -1,4 +1,5 @@
 from rest_framework.viewsets import ModelViewSet
+from review.models import Like
 
 from django.shortcuts import render, get_object_or_404
 from rest_framework.decorators import api_view, action
@@ -32,29 +33,38 @@ class MovieViewSet(ModelViewSet):
     filterset_fields = ['title', 'year',]
     search_fields = ['title', 'year',]
     ordering_fields = ['title', 'year', 'average_rating']
+    
+    @action(['POST'], detail=False)
+    def like_or_dislike(request):
+        movie_id = request.POST.get('id')
+        action = request.POST.get('action')
+        if movie_id and action:
+            try:
+                movie = Movie.objects.get(id=movie_id)
+                if action == 'like':
+                    movie.movie_like.add(request.user)
+                else:
+                    movie.post_like.remove(request.user)
+                if action == 'dislike':
+                    movie.movie_dislike.add(request.user)
+                else:
+                    movie.post_dislike.remove(request.user)
+                    return Response(status=201)
+            except:
+                pass
+        return Response(status=201)
 
-@api_view(['GET'])
-def toggle_like(request, m_id):
-    user = request.user
-    movie = get_object_or_404(Movie, id=m_id)
 
-    # if Like.objects.filter(user=user, movie=movie).exists():
-    #     Like.objects.filter(user=user, movie=movie).delete()
-    # else:
-    #     Like.objects.create(user=user, movie=movie)
-    # return Response("Like toggled", 200)
+    @action(['POST'], detail=False)
+    def user_like(request):
+        likes = Like.objects.all()
+        for like in likes:
+            if like.like_or_dislike == "like":
+                like.for_movie.movie_like.add(like.user)
+            if like.like_or_dislike == "dislike":
+                like.for_movie.movie_dislike.add(like.user)
+        return Response("Complete")
+        
+    
 
-    # @action(['GET'], detail=False)
-    # def search(self, request):
-    #     q = request.query_params.get('q')
 
-    #     if q:
-    #         queryset = queryset.filter(Q(title__icontains=q) | Q(author__first_name__icontains=q) | Q(author__last_name__icontains=q))
-
-    #     pagination = self.paginate_queryset(queryset)
-    #     if pagination:
-    #         serializer = self.get_serializer(pagination, many=True)
-    #         return self.get_paginated_response(serializer.data)
-
-    #     serializer = self.get_serializer(queryset, many=True)
-    #     return Response(serializer.data, status=200)
