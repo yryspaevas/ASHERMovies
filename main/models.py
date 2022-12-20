@@ -41,8 +41,8 @@ class Movie(models.Model):
     country = models.ForeignKey(Country, related_name='country_movie', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
-    budget = models.PositiveBigIntegerField(default=0, help_text="указывать сумму в долларах")
-    created_year = models.PositiveSmallIntegerField(default=2019)
+    budget = models.IntegerField(default=0, help_text="указывать сумму в долларах")
+    created_year = models.IntegerField(default=0)
     image = models.ImageField(upload_to='media', null=True)
     
     def __str__(self):

@@ -6,7 +6,7 @@ from main.models import Movie
 
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, related_name='users', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='movie_comments', on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, related_name='comments', on_delete=models.CASCADE)
     body = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
