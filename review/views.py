@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from .serializers import CommentSerializer, FavouriteSerializer, RatingSerializer
-from .models import Comment, Favourite,Rating
+from .models import Comment, Favourite,Rating, Like
 
 from drf_yasg.utils import swagger_auto_schema
 
@@ -48,3 +48,35 @@ def favourite(request):
     else:
         Favourite.objects.create(movie=movie, user=user)
     return Response(status=201)
+
+
+@api_view(['POST'])
+def like_or_dislike(request):
+    movie_id = request.POST.get('id')
+    action = request.POST.get('action')
+    if movie_id and action:
+        try:
+            movie = Movie.objects.get(id=movie_id)
+            if action == 'like':
+                movie.movie_like.add(request.user)
+            else:
+                movie.post_like.remove(request.user)
+            if action == 'dislike':
+                movie.movie_dislike.add(request.user)
+            else:
+                movie.post_dislike.remove(request.user)
+                return Response(status=201)
+        except:
+            pass
+    return Response(status=201)
+
+
+@api_view(['POST'])
+def user_like(request):
+    likes = Like.objects.all()
+    for like in likes:
+        if like.like_or_dislike == "like":
+            like.for_movie.movie_like.add(like.user)
+        if like.like_or_dislike == "dislike":
+            like.for_movie.movie_dislike.add(like.user)
+    return Response("Complete")

@@ -33,3 +33,22 @@ class Rating(models.Model):
 
     def __str__(self) -> str:
         return f'{self.user} -> {self.movie}'
+
+
+
+class Like(models.Model):
+    LIKE_OR_DISLAKE_CHOICES = (
+    ("LIKE", "like"),
+    ("DISLIKE", "dislike"),
+    (None, "None")
+    )
+
+    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    for_movie = models.ForeignKey(Movie, on_delete = models.CASCADE)
+    like_or_dislike = models.CharField(max_length=7,
+                  choices=LIKE_OR_DISLAKE_CHOICES,
+                  default=None)
+
+    class Meta:
+        verbose_name = 'Лайк'
+        verbose_name_plural = 'Лайки'
