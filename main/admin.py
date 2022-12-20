@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Genre,  Country, Movie
+from .models import Country, Movie, Genre
 # from review.models import Comment, Favourite, Rating
 
 
@@ -14,9 +14,9 @@ from .models import Genre,  Country, Movie
 #     model = Favourite
 
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ['title', 'genre', 'created_year' ]
-    list_filter = ['genre', 'created_year']
-    search_fields = ['title', 'genre', 'created_year']
+    list_display = ['title', 'created_year' ]
+    list_filter = ['created_year']
+    search_fields = ['title','created_year']
 
 admin.site.register(Genre)
 admin.site.register(Country)
