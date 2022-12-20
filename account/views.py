@@ -3,8 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
+from .serializers import *
 from .models import User
-from .serializers import RegisterUserSerializer
 
 
 class RegisterUserView(APIView):
@@ -33,3 +33,22 @@ def activate_view(request, activation_code):
     user.activation_code = '' # удаляем активационный код
     user.save()
     return Response('Вы успешно активировали аккаунт', 200)
+
+class ForgotPasswordView(APIView):
+    @swagger_auto_schema(request_body=ForgotSerializer)
+    def post(self, request):
+        data = request.POST
+        serializer = ForgotSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            message = "Please, confirm your email"
+            return Response(message)
+
+class NewPasswordView(APIView):
+    def get(self, request, activation_code):
+        user = get_object_or_404(User, activation_code=activation_code)
+        new_password = user.generate_activation_code()
+        user.set_password(new_password)
+        user.save()
+        return Response(f"Your new password is {new_password}")
+        

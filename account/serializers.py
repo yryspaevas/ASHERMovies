@@ -24,3 +24,20 @@ class RegisterUserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
+        
+class ForgotSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        try:
+            User.objects.get(email=email)
+        except User.DoesNotExist:
+            raise serializers.ValidationError('Such email does not found')
+        return attrs
+    
+    def save(self):
+        data = self.validated_data
+        user = User.objects.get(**data)
+        user.set_activation_code()
+        user.password_confirm()
