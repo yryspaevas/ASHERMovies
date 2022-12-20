@@ -25,6 +25,7 @@ class GenreViewSet(ModelViewSet):
 class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
+    
     permission_classes = [IsAdminUser]
     filter_backends = [
         filters.OrderingFilter, 
@@ -64,7 +65,3 @@ class MovieViewSet(ModelViewSet):
             if like.like_or_dislike == "dislike":
                 like.for_movie.movie_dislike.add(like.user)
         return Response("Complete")
-        
-    
-
-

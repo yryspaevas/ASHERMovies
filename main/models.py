@@ -1,14 +1,20 @@
 from django.db import models
+from account.models import User
 
-class Genre(models.Model):
-    title = models.CharField(max_length=100)
+GENRE = [
+    ('ACTION', 'Action'),
+    ('ADVENTURE', 'Adventure'),
+    ('COMEDY', 'Comedy'),
+    ('DRAMA', 'drama'),
+    ('FANTASY', 'Fantasy'),
+    ('HORROR', 'Horror'),
+    ('MUSICALS', 'Musicals'),
+    ('MYSTERY', 'Mystery'),
+    ('ROMANCE', 'Romance'),
+    ('THRILLER', 'Thriller'),
+    ('WESTERN', 'Western')
+]
 
-    def __str__(self):
-        return self.title
-    
-    class Meta:
-        verbose_name = "Жанр"
-        verbose_name_plural = "Жанры"
 
 class Country(models.Model):
     title = models.CharField(max_length=100)
