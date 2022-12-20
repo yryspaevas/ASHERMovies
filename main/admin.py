@@ -1,17 +1,17 @@
 from django.contrib import admin
 from .models import Country, Movie, Genre
-# from review.models import Comment, Favourite, Rating
+from review.models import Comment, Favourite, Rating
 
 
 
-# class RatingInline(admin.TabularInline):
-#     model = Rating
+class RatingInline(admin.TabularInline):
+    model = Rating
 
-# class CommentInline(admin.TabularInline):
-#     model = Comment
+class CommentInline(admin.TabularInline):
+    model = Comment
 
-# class FavouriteInline(admin.TabularInline):
-#     model = Favourite
+class FavouriteInline(admin.TabularInline):
+    model = Favourite
 
 class MovieAdmin(admin.ModelAdmin):
     list_display = ['title', 'created_year' ]

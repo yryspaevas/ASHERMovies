@@ -18,7 +18,7 @@ from account.models import User
 class Genre(models.Model):
     title = models.CharField(max_length=100)
 
-    def __str__(self):
+    def str(self):
         return self.title
     
     class Meta:
@@ -44,8 +44,6 @@ class Movie(models.Model):
     budget = models.PositiveBigIntegerField(default=0, help_text="указывать сумму в долларах")
     created_year = models.PositiveSmallIntegerField(default=2019)
     image = models.ImageField(upload_to='media', null=True)
-    movie_like = models.ManyToManyField(User,related_name='post_liked', blank=True)
-    movie_dislike = models.ManyToManyField(User, related_name='post_disliked', blank=True)
     
     def __str__(self):
         return self.title
