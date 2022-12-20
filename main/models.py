@@ -1,20 +1,25 @@
 from django.db import models
 from account.models import User
 
-GENRE = [
-    ('ACTION', 'Action'),
-    ('ADVENTURE', 'Adventure'),
-    ('COMEDY', 'Comedy'),
-    ('DRAMA', 'drama'),
-    ('FANTASY', 'Fantasy'),
-    ('HORROR', 'Horror'),
-    ('MUSICALS', 'Musicals'),
-    ('MYSTERY', 'Mystery'),
-    ('ROMANCE', 'Romance'),
-    ('THRILLER', 'Thriller'),
-    ('WESTERN', 'Western')
-]
+# GENRE = [
+#     ('ACTION', 'Action'),
+#     ('ADVENTURE', 'Adventure'),
+#     ('COMEDY', 'Comedy'),
+#     ('DRAMA', 'drama'),
+#     ('FANTASY', 'Fantasy'),
+#     ('HORROR', 'Horror'),
+#     ('MUSICALS', 'Musicals'),
+#     ('MYSTERY', 'Mystery'),
+#     ('ROMANCE', 'Romance'),
+#     ('THRILLER', 'Thriller'),
+#     ('WESTERN', 'Western')
+# ]
 
+class Genre(models.Model):
+    title = models.CharField(max_length=25)
+
+    def __str__(self) -> str:
+        return self.title
 
 class Country(models.Model):
     title = models.CharField(max_length=100)
