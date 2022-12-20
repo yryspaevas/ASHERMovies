@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from .serializers import CountrySerializer, GenreSerializer, MovieSerializer
 from .models import Country, Genre, Movie
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
+from rest_framework.permissions import IsAdminUser
 
 from rest_framework import filters
 
@@ -19,12 +19,12 @@ class CountryViewSet(ModelViewSet):
 class GenreViewSet(ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminUser]
 
 class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminUser]
     filter_backends = [
         filters.OrderingFilter, 
         filters.SearchFilter, 
