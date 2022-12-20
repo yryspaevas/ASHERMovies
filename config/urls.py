@@ -37,4 +37,6 @@ urlpatterns = [
     path('docs/', swagger_view.with_ui('swagger', cache_timeout=0)),
     path('', include('review.urls')),
     path('', include('main.urls')),
+    path('account/', include('account.urls')),
+
 ]
