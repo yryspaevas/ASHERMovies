@@ -1,28 +1,39 @@
-from django.shortcuts import render
-
-# Create your views here.
 from rest_framework.viewsets import ModelViewSet
+from review.models import Like
+
+from django.shortcuts import render, get_object_or_404
+from rest_framework.decorators import api_view, action
+from django.db.models import Q
 from rest_framework.response import Response
-
-from rest_framework.decorators import action
-
 
 from .serializers import CountrySerializer, GenreSerializer, MovieSerializer
 from .models import Country, Genre, Movie
-from review.models import Like
+from rest_framework.permissions import IsAdminUser
+
+from rest_framework import filters
 
 class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
+    permission_classes = [IsAdminUser]
 
 class GenreViewSet(ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
+    permission_classes = [IsAdminUser]
 
 class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-
+    permission_classes = [IsAdminUser]
+    filter_backends = [
+        filters.OrderingFilter, 
+        filters.SearchFilter, 
+    ]
+    filterset_fields = ['title', 'year',]
+    search_fields = ['title', 'year',]
+    ordering_fields = ['title', 'year', 'average_rating']
+    
     @action(['POST'], detail=False)
     def like_or_dislike(request):
         movie_id = request.POST.get('id')
@@ -53,3 +64,7 @@ class MovieViewSet(ModelViewSet):
             if like.like_or_dislike == "dislike":
                 like.for_movie.movie_dislike.add(like.user)
         return Response("Complete")
+        
+    
+
+
