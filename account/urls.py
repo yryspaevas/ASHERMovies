@@ -5,7 +5,8 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
-from .views import RegisterUserView, activate_view, DeleteUserView
+from .views import RegisterUserView, activate_view, DeleteUserView, ForgotPasswordView, NewPasswordView
+
 
 
 urlpatterns = [
@@ -14,4 +15,6 @@ urlpatterns = [
     path('delete/', DeleteUserView.as_view()),
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view()),
+    path('forgot_password/', ForgotPasswordView.as_view()),
+    path('password_confirm/<str:activation_code>', NewPasswordView.as_view()),
 ]
