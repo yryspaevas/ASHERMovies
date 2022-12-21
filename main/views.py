@@ -33,6 +33,13 @@ class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     
+class MovieViewSet(ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    def get_permissions(self):
+        if self.action in ['retrive', 'list', 'search']:
+            return []
+        return [IsAdminUser()]
     filter_backends = [
         filters.OrderingFilter, 
         filters.SearchFilter, 
