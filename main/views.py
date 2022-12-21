@@ -15,18 +15,24 @@ from rest_framework import filters
 class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()
     serializer_class = CountrySerializer
-    permission_classes = [IsAdminUser]
-
+    def get_permissions(self):
+        if self.action in ['retrive', 'list', 'search']:
+            return []
+        return [IsAdminUser()]
 class GenreViewSet(ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    permission_classes = [IsAdminUser]
-
+    def get_permissions(self):
+        if self.action in ['retrive', 'list', 'search']:
+            return []
+        return [IsAdminUser()]
 class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-    
-    permission_classes = [IsAdminUser,]
+    def get_permissions(self):
+        if self.action in ['retrive', 'list', 'search']:
+            return []
+        return [IsAdminUser()]
     filter_backends = [
         filters.OrderingFilter, 
         filters.SearchFilter, 
