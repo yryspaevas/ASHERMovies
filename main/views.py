@@ -26,7 +26,7 @@ class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
     
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser,]
     filter_backends = [
         filters.OrderingFilter, 
         filters.SearchFilter, 
