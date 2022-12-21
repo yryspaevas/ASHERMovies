@@ -1,19 +1,19 @@
 from django.db import models
 from account.models import User
 
-GENRE = [
-    ('ACTION', 'Action'),
-    ('ADVENTURE', 'Adventure'),
-    ('COMEDY', 'Comedy'),
-    ('DRAMA', 'drama'),
-    ('FANTASY', 'Fantasy'),
-    ('HORROR', 'Horror'),
-    ('MUSICALS', 'Musicals'),
-    ('MYSTERY', 'Mystery'),
-    ('ROMANCE', 'Romance'),
-    ('THRILLER', 'Thriller'),
-    ('WESTERN', 'Western')
-]
+# GENRE = [
+#     ('ACTION', 'Action'),
+#     ('ADVENTURE', 'Adventure'),
+#     ('COMEDY', 'Comedy'),
+#     ('DRAMA', 'drama'),
+#     ('FANTASY', 'Fantasy'),
+#     ('HORROR', 'Horror'),
+#     ('MUSICALS', 'Musicals'),
+#     ('MYSTERY', 'Mystery'),
+#     ('ROMANCE', 'Romance'),
+#     ('THRILLER', 'Thriller'),
+#     ('WESTERN', 'Western')
+# ]
 
 class Genre(models.Model):
     title = models.CharField(max_length=100)
@@ -54,10 +54,11 @@ class Movie(models.Model):
     
     @property
     def average_rating(self):
-        ratings = self.ratings.all() # это queryset  со значениями ratings
+        ratings = self.movie_rating.all() # это queryset  со значениями ratings
         values = []
         for rating in ratings:
             values.append(rating.value)
         if values:
             return sum(values) / len(values)
         return 0
+
