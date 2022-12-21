@@ -3,11 +3,13 @@ from django.shortcuts import render
 # Create your views here.
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
 
-from .serializers import CommentSerializer, FavouriteSerializer, RatingSerializer
-from .models import Comment, Favourite,Rating, Like
+from .serializers import CommentSerializer, FavouriteSerializer,  RatingSerializer
+from .models import Comment, Rating, Favourite, Like 
 
 from drf_yasg.utils import swagger_auto_schema
 
@@ -23,6 +25,8 @@ class CommetViewSet(ModelViewSet):
 
 
 class CreateRatingAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+    @swagger_auto_schema(request_body=RatingSerializer())
     def post(self, request):
         user = request.user
         serializer = RatingSerializer(data=request.data, context={"request":request})
@@ -38,15 +42,34 @@ class CreateRatingAPIView(APIView):
         
 
 @api_view(['POST'])
-def favourite(request):
-    user_id = request.data.get('user')
-    movie_id = request.data.get('movie')
-    user = get_object_or_404(User, id=user_id)
-    movie = get_object_or_404(Movie, id = movie_id)
+def add_to_favorite(request, m_id):
+    user = request.user
+    movie = get_object_or_404(Movie, id=m_id)
 
     if Favourite.objects.filter(user=user, movie=movie).exists():
         Favourite.objects.filter(user=user, movie=movie).delete()
+        return Response('Deleted from favorite')
     else:
-        Favourite.objects.create(movie=movie, user=user)
-    return Response(status=201)
+        Favourite.objects.create(user=user, movie=movie, favorite=True)
+        return Response('Added to favorites')
 
+class FavoriteView(ListAPIView):
+    queryset = Favourite.objects.all()
+    serializer_class = FavouriteSerializer
+    permission_classes = [IsAuthenticated, ]
+
+    def filter_queryset(self, queryset):
+        new_queryset = queryset.filter(user=self.request.user)
+        return new_queryset
+
+@api_view(['GET'])
+def toggle_like(request, m_id):
+    user = request.user
+    movie = get_object_or_404(Movie, id=m_id)
+
+    if Like.objects.filter(user=user, movie=movie).exists():
+        Like.objects.filter(user=user, movie=movie).delete()
+        return Response ('Like has been deleted')
+    else:
+        Like.objects.create(user=user, movie=movie)
+        return Response("Like toggled", 200)

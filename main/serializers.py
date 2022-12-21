@@ -19,12 +19,12 @@ class MovieSerializer(ModelSerializer):
         model = Movie
         fields = '__all__'
 
-    def to_representation(self, instance):
+    def to_representation(self, instance:Movie):
         rep = super().to_representation(instance)
-        rep['comments'] = CommentSerializer(instance.comments.all(), many=True).data
+        rep['comments'] = CommentSerializer(instance.movie_comments.all(), many=True).data
         rep['rating'] = instance.average_rating
-        rep['likes'] = instance.likes.all().count()
-        rep['favorites'] = instance.favorites.filter(favorited=True).count()
+        rep['likes'] = instance.movie_likes.all().count()
+        rep['favorites'] = instance.movie_favourite.filter(favorite=True).count()
         return rep
 
 class CommentSerializer(ModelSerializer):
