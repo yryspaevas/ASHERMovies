@@ -21,3 +21,6 @@ class MovieAdmin(admin.ModelAdmin):
 admin.site.register(Genre)
 admin.site.register(Country)
 admin.site.register(Movie, MovieAdmin)
+# admin.site.register(CommentInline)
+# admin.site.register(RatingInline)
+# admin.site.register(FavouriteInline)

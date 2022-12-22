@@ -52,12 +52,13 @@ class Movie(models.Model):
         verbose_name = "Фильм"
         verbose_name_plural = "Фильмы"
     
-    # @property
-    # def average_rating(self):
-    #     ratings = self.ratings.all() # это queryset  со значениями ratings
-    #     values = []
-    #     for rating in ratings:
-    #         values.append(rating.value)
-    #     if values:
-    #         return sum(values) / len(values)
-    #     return 0
+    @property
+    def average_rating(self):
+        ratings = self.movie_rating.all() # это queryset  со значениями ratings
+        values = []
+        for rating in ratings:
+            values.append(rating.value)
+        if values:
+            return sum(values) / len(values)
+        return 0
+
