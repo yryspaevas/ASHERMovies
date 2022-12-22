@@ -16,7 +16,7 @@ from drf_yasg.utils import swagger_auto_schema
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 
-from account.models import User
+from checkaccount.models import User
 from main.models import Movie
 
 class CommetViewSet(ModelViewSet):

@@ -16,7 +16,7 @@ from drf_yasg import openapi
 from rest_framework import filters
 
 from review.models import Favourite
-from account.models import User
+from checkaccount.models import User
 
 class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()

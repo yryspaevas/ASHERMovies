@@ -29,7 +29,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    username = None
+    # username = None
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=50)
     photo = models.ImageField(upload_to='users', null=True)
