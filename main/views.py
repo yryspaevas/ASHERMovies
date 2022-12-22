@@ -62,7 +62,7 @@ class MovieViewSet(ModelViewSet):
         q = request.query_params.get('q')
         queryset = self.get_queryset() # Product.objects.all()
         if q:
-            queryset = queryset.filter(Q(title__icontains=q) | Q(description__icontains=q))
+            queryset = queryset.filter(Q(title__icontains=q))
 
         pagination = self.paginate_queryset(queryset)
         if pagination:
