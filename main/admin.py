@@ -17,6 +17,7 @@ class MovieAdmin(admin.ModelAdmin):
     list_display = ['title', 'created_year' ]
     list_filter = ['created_year']
     search_fields = ['title','created_year']
+    
 
 admin.site.register(Genre)
 admin.site.register(Country)
