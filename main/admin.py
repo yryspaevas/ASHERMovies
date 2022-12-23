@@ -17,10 +17,14 @@ class MovieAdmin(admin.ModelAdmin):
     list_display = ['title', 'created_year' ]
     list_filter = ['created_year']
     search_fields = ['title','created_year']
+    
 
 admin.site.register(Genre)
 admin.site.register(Country)
 admin.site.register(Movie, MovieAdmin)
-
 admin.site.site_title = "Django Movies"
 admin.site.site_header = "Django Movies"
+admin.site.register(Comment)
+admin.site.register(Rating)
+admin.site.register(Favourite)
+

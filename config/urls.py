@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import TemplateView
 
 
 """=============Swagger docs============="""
@@ -35,9 +36,12 @@ swagger_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('docs/', swagger_view.with_ui('swagger', cache_timeout=0)),
+    path('', include('chat.urls')),
     path('', include('review.urls')),
     path('', include('main.urls')),
-    path('account/', include('account.urls')),
+    path('account/', include('checkaccount.urls')),
+    path('accounts/', include('allauth.urls')),
+    path('home/', TemplateView.as_view(template_name='dashboard/home.html'), name='home'),
 
 ]
 
@@ -46,3 +50,6 @@ from django.conf.urls.static import static
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+

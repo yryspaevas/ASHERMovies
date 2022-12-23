@@ -4,7 +4,10 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.core.mail import send_mail
 
 
+from .tasks import send_activation_code
+
 class UserManager(BaseUserManager):
+    
     use_in_migrations = True
 
     def _create(self, email, password, **kwargs):
@@ -15,7 +18,8 @@ class UserManager(BaseUserManager):
         user:User = self.model(email=email, **kwargs)
         user.set_password(password) # хеширует пароль
         user.save(using=self._db) # сохраняем в бд
-        user.send_activation_code() # отправляем сообщение на почту
+        user.create_activation_code()
+        send_activation_code.delay(user.activation_code, user.email) # отправляем сообщение на почту
         return user
 
     def create_user(self, email, password, **kwargs):
@@ -29,7 +33,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    username = None
+    # username = None
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=50)
     photo = models.ImageField(upload_to='users', null=True)
@@ -52,11 +56,16 @@ class User(AbstractUser):
         self.activation_code = code
         self.save()
 
-    def send_activation_code(self):
-        self.create_activation_code()
-        activation_link = f'http://127.0.0.1:8000/account/activate/{self.activation_code}'
-        message = f'Жми на кнопку и не выебывайся:\n{activation_link}'
-        send_mail("Activate account", message, 'admin@admin.com', recipient_list=[self.email])
+    # def send_activation_code(self):
+    #     from .tasks import send_activation_code
+
+    #     # self.create_activation_code()
+    #     # activation_link = f'http://127.0.0.1:8000/account/activate/{self.activation_code}'
+    #     # message = f'Жми на кнопку и не выебывайся:\n{activation_link}'
+    #     # send_mail("Activate account", message, 'admin@admin.com', recipient_list=[self.email])
+    #     send_activation_code.delay()
+
+
    
     @staticmethod
     def generate_activation_code():
@@ -71,6 +80,8 @@ class User(AbstractUser):
         else:
             self.activation_code = code
             self.save()
+
+    
     def password_confirm(self):
         activation_url = f'http://127.0.0.1:8000/account/password_confirm/{self.activation_code}'
         message = f"""

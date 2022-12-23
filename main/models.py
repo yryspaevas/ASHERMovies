@@ -1,6 +1,7 @@
 from django.db import models
-from account.models import User
 from django.db.models import Q
+from checkaccount.models import User
+
 
 # GENRE = [
 #     ('ACTION', 'Action'),
@@ -56,10 +57,14 @@ class Movie(GenreYear,models.Model):
     budget = models.IntegerField(default=0, help_text="указывать сумму в долларах")
     created_year = models.IntegerField(default=0)
     image = models.ImageField(upload_to='media', null=True)
+    video = models.FileField(upload_to='media', null=True)
     
     def __str__(self):
         return self.title
     
+    # def get_absolute_url(self):
+    #     return reverse('post_detail_url', kwargs={'slug': self.slug})
+
     class Meta:
         verbose_name = "Фильм"
         verbose_name_plural = "Фильмы"
@@ -76,11 +81,3 @@ class Movie(GenreYear,models.Model):
 
 
 
-# class FilterMoviesView(GenreYear):
-#     def get_queryset(self):
-#         year = Movie.created_year
-#         queryset = Movie.objects.filter(
-#         Q(year__in=self.get_years("created_year")) |
-#         Q(genres__in=self.get_genres("genre"))
-#         )
-#         return queryset 

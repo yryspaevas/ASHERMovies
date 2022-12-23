@@ -13,7 +13,9 @@ class IsAuthorOrReadOnly(BasePermission):
             return True
         if not request.user.is_authenticated:
             return False
+        if request.user == obj.user:
+            return True
 
-class IsAuthor(BasePermission):
-    def has_object_permission(self, request, view, obj):
-        return request.user == obj.user
+# class IsAuthor(BasePermission):
+#     def has_object_permission(self, request, view, obj):
+#         return request.user == obj.user
