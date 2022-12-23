@@ -38,13 +38,26 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
+
+    'crispy_forms',
+
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_yasg',
+    'django.contrib.sites',
+
+    'django_celery_results',
 
     # apps
     'main',
-    'account',
+    'checkaccount',
     'review',
 ]
 
@@ -63,7 +76,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -71,6 +84,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -139,7 +153,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'account.User'
+AUTH_USER_MODEL = 'checkaccount.User'
 
 
 REST_FRAMEWORK = {
@@ -178,3 +192,72 @@ SWAGGER_SETTINGS = {
         }
     }
 }
+
+AUTHENTICATION_BACKENDS = [
+  
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+]
+
+SITE_ID=1
+# 1010474652753-7k6ojbmuu5rhuqmv6qnlpim8jkg0792h.apps.googleusercontent.com
+# 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
+
+# b90de16d826bf722fe81
+# 79d5c306226875baccd928a44a37ea79456d9296
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    },
+     'github': {
+        'SCOPE': [
+            'user',
+            'repo',
+            'read:org',
+        ],
+    }
+    
+}
+LOGIN_REDIRECT_URL = 'home'
+
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# CELERY_TIMEZONE = "Australia/Tasmania"
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# REDIS_HOST = 'localhost'
+# REDIS_PORT = 5672
+# CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+# # CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+
+# CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_CACHE_BACKEND = 'django-cache'
+# CELERY_CACHE_BACKEND = 'default'
+
+# # django setting.
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',
+#     }
+# }
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"

@@ -16,7 +16,7 @@ from drf_yasg import openapi
 from rest_framework import filters
 
 from review.models import Favourite
-from account.models import User
+from checkaccount.models import User
 
 class CountryViewSet(ModelViewSet):
     queryset = Country.objects.all()
@@ -108,3 +108,26 @@ class MovieViewSet(ModelViewSet):
 
  
 
+# def movie_detail(request, slug):
+
+#     # Проверяем есть ли пост с запрашиваемым слагом
+#     movie = get_object_or_404(Movie, slug__iexact=slug)
+#     if not request.session.session_key:
+#         request.session.save()
+#     # получаем сессию
+#     session_key = request.session.session_key
+
+#     is_views = MovieCountViews.objects.filter(movieId=movie.id, sesId=session_key)
+
+#     # если нет информации о просмотрах создаем ее
+#     if is_views.count() == 0 and str(session_key) != 'None':
+
+#         views = MovieCountViews()
+#         views.sesId = session_key
+#         views.movieId = movie
+#         views.save()
+
+#         movie.count_views += 1
+#         movie.save()
+
+#     return render(request, 'post_detail.html', context={'post': post})
