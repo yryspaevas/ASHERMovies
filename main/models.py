@@ -44,6 +44,7 @@ class Movie(models.Model):
     budget = models.IntegerField(default=0, help_text="указывать сумму в долларах")
     created_year = models.IntegerField(default=0)
     image = models.ImageField(upload_to='media', null=True)
+    video = models.FileField(upload_to='media', null=True)
     
     def __str__(self):
         return self.title
