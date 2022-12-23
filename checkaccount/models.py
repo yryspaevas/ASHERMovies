@@ -55,7 +55,7 @@ class User(AbstractUser):
     def send_activation_code(self):
         self.create_activation_code()
         activation_link = f'http://127.0.0.1:8000/account/activate/{self.activation_code}'
-        message = f'Жми на кнопку и не выебывайся:\n{activation_link}'
+        message = f'Перейдите по ссылке для активации:\n{activation_link}'
         send_mail("Activate account", message, 'admin@admin.com', recipient_list=[self.email])
    
     @staticmethod
