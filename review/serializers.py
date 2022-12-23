@@ -28,6 +28,13 @@ class FavouriteSerializer(ModelSerializer):
 
         return attrs
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        representation['user'] = instance.user.email
+        representation['movie'] = instance.movie.title
+        del representation['favorite']
+        return representation
+
 
 class RatingSerializer(ModelSerializer):
     class Meta:
