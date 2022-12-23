@@ -1,5 +1,5 @@
 from django.db import models
-from account.models import User
+from checkaccount.models import User
 
 # GENRE = [
 #     ('ACTION', 'Action'),
