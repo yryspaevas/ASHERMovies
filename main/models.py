@@ -49,6 +49,9 @@ class Movie(models.Model):
     def __str__(self):
         return self.title
     
+    # def get_absolute_url(self):
+    #     return reverse('post_detail_url', kwargs={'slug': self.slug})
+
     class Meta:
         verbose_name = "Фильм"
         verbose_name_plural = "Фильмы"
@@ -63,3 +66,12 @@ class Movie(models.Model):
             return sum(values) / len(values)
         return 0
 
+
+# class MovieCountViews(models.Model):
+#     # привязка к пользователю (сессии пользователя)
+#     sesId = models.CharField(max_length=150, db_index=True)
+#     # привязка к посту 
+#     movieId = models.ForeignKey(Movie, blank=True, null=True, default=None, on_delete=models.CASCADE)
+    
+#     def __str__(self):
+#         return '{}'.format(self.sesId)

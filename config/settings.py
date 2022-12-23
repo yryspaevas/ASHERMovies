@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django.contrib.sites',
 
+    'django_celery_results',
+
     # apps
     'main',
     'checkaccount',
@@ -235,3 +237,32 @@ LOGIN_REDIRECT_URL = 'home'
 ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# CELERY_TIMEZONE = "Australia/Tasmania"
+# CELERY_TASK_TRACK_STARTED = True
+# CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# REDIS_HOST = 'localhost'
+# REDIS_PORT = 5672
+# CELERY_BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# CELERY_BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+# # CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# CELERY_ACCEPT_CONTENT = ['application/json']
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+
+# CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_CACHE_BACKEND = 'django-cache'
+# CELERY_CACHE_BACKEND = 'default'
+
+# # django setting.
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',
+#     }
+# }
+
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "redis://localhost:6379"

@@ -25,6 +25,7 @@ class CountryViewSet(ModelViewSet):
         if self.action in ['retrive', 'list', 'search']:
             return []
         return [IsAdminUser()]
+
 class GenreViewSet(ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
@@ -32,6 +33,12 @@ class GenreViewSet(ModelViewSet):
         if self.action in ['retrive', 'list', 'search']:
             return []
         return [IsAdminUser()]
+        
+
+class MovieViewSet(ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    
 class MovieViewSet(ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
@@ -55,7 +62,7 @@ class MovieViewSet(ModelViewSet):
         q = request.query_params.get('q')
         queryset = self.get_queryset() # Product.objects.all()
         if q:
-            queryset = queryset.filter(Q(title__icontains=q) | Q(description__icontains=q))
+            queryset = queryset.filter(Q(title__icontains=q))
 
         pagination = self.paginate_queryset(queryset)
         if pagination:
@@ -68,3 +75,26 @@ class MovieViewSet(ModelViewSet):
     
  
 
+# def movie_detail(request, slug):
+
+#     # Проверяем есть ли пост с запрашиваемым слагом
+#     movie = get_object_or_404(Movie, slug__iexact=slug)
+#     if not request.session.session_key:
+#         request.session.save()
+#     # получаем сессию
+#     session_key = request.session.session_key
+
+#     is_views = MovieCountViews.objects.filter(movieId=movie.id, sesId=session_key)
+
+#     # если нет информации о просмотрах создаем ее
+#     if is_views.count() == 0 and str(session_key) != 'None':
+
+#         views = MovieCountViews()
+#         views.sesId = session_key
+#         views.movieId = movie
+#         views.save()
+
+#         movie.count_views += 1
+#         movie.save()
+
+#     return render(request, 'post_detail.html', context={'post': post})

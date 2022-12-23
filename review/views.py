@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from .serializers import CommentSerializer, FavouriteSerializer,  RatingSerializer
 from .models import Comment, Rating, Favourite, Like 
@@ -22,6 +22,7 @@ from main.models import Movie
 class CommetViewSet(ModelViewSet):
     queryset= Comment.objects.all()
     serializer_class = CommentSerializer
+    permission_classes=[IsAuthenticatedOrReadOnly]
 
 
 class CreateRatingAPIView(APIView):
@@ -53,7 +54,7 @@ def add_to_favorite(request, m_id):
         Favourite.objects.create(user=user, movie=movie, favorite=True)
         return Response('Added to favorites')
 
-class FavoriteView(ListAPIView):
+class FavoriteViewSet(ModelViewSet):
     queryset = Favourite.objects.all()
     serializer_class = FavouriteSerializer
     permission_classes = [IsAuthenticated, ]
