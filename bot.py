@@ -14,7 +14,7 @@ keyboard.add(button1, button2)
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id,'Привет выбери кнопку')
+    bot.send_message(message.chat.id,'Привет выбери кнопку', reply_markup=keyboard)
     bot.send_photo(message.chat.id,'https://www.mos.ru/upload/newsfeed/newsfeed/GL(188851).jpg')
     bot.register_next_step_handler(message,reply_to_button)
     
@@ -33,5 +33,4 @@ def reply_to_button(message):
         bot.register_next_step_handler(message,reply_to_button)
 
 bot.polling(none_stop=True, interval=0)
-
 
