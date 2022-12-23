@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
+from django.core.mail import send_mail
 
 
 class UserManager(BaseUserManager):
@@ -28,7 +29,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    username = None
+    # username = None
     first_name = models.CharField(max_length=40)
     last_name = models.CharField(max_length=50)
     photo = models.ImageField(upload_to='users', null=True)
@@ -52,10 +53,31 @@ class User(AbstractUser):
         self.save()
 
     def send_activation_code(self):
-        from django.core.mail import send_mail
         self.create_activation_code()
         activation_link = f'http://127.0.0.1:8000/account/activate/{self.activation_code}'
         message = f'Жми на кнопку и не выебывайся:\n{activation_link}'
         send_mail("Activate account", message, 'admin@admin.com', recipient_list=[self.email])
+   
+    @staticmethod
+    def generate_activation_code():
+        from django.utils.crypto import get_random_string
+        code = get_random_string(8)
+        return code 
 
+    def set_activation_code(self):
+        code = self.generate_activation_code()
+        if User.objects.filter(activation_code=code).exists():
+            self.set_activation_code()
+        else:
+            self.activation_code = code
+            self.save()
+    def password_confirm(self):
+        activation_url = f'http://127.0.0.1:8000/account/password_confirm/{self.activation_code}'
+        message = f"""
+        Do you want to change password?
+        Confirm password changes: {activation_url}
+        """
+        send_mail("Please confirm", message, "ruslan883888@gmail.com", [self.email, ])
 
+    def __str__(self) -> str:
+        return f'{self.username} -> {self.email}'

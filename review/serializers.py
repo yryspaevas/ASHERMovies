@@ -1,11 +1,12 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Comment, Rating, Favourite
+from .models import Comment, Rating, Favourite, Like
 
 
 class CommentSerializer(ModelSerializer):
     class Meta:
         model = Comment
-        exclude = ('user',)
+        # exclude = ('user',)
+        fields = '__all__'
 
     def validate(self, attrs):
         attrs = super().validate(attrs)
@@ -18,7 +19,7 @@ class CommentSerializer(ModelSerializer):
 class FavouriteSerializer(ModelSerializer):
     class Meta:
         model = Favourite
-        exclude = ('user',)
+        fields = '__all__'
 
     def validate(self, attrs):
         attrs = super().validate(attrs)
@@ -39,3 +40,9 @@ class RatingSerializer(ModelSerializer):
         attrs['user'] = request.user
 
         return attrs
+
+
+class LikeSerializer(ModelSerializer):
+    class Meta:
+        model = Like
+        fields = '__all__'

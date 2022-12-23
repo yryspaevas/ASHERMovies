@@ -10,3 +10,4 @@ router.register('movies', MovieViewSet)
 urlpatterns =[
     path('', include(router.urls)),
 ]
+
