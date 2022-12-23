@@ -66,38 +66,5 @@ class MovieViewSet(ModelViewSet):
         return Response(serializer.data, status=200)
 
     
-    # @action(['POST'], detail=False)
-    # def like_or_dislike(self, request):
-    #     movie_id = request.POST.get('id')
-    #     action = request.POST.get('action')
-    #     if movie_id and action:
-    #         try:
-    #             movie = Movie.objects.get(id=movie_id)
-    #             if action == 'like':
-    #                 # movie.movie_like.add(request.user)
-    #                 Like.objects.create()
-    #             else:
-    #                 # movie.post_like.remove(request.user)
-    #                 Like.objects.delete()
-    #             if action == 'dislike':
-    #                 movie.movie_dislike.add(request.user)
-    #             else:
-    #                 movie.post_dislike.remove(request.user)
-    #                 return Response(status=201)
-    #         except:
-    #             pass
-    #     return Response(status=201)
-
-
-    # @action(['POST'], detail=False)
-    # def user_like(self, request):
-    #     likes = Like.objects.all()
-    #     for like in likes:
-    #         if like.like_or_dislike == "like":
-    #             like.for_movie.movie_like.add(like.user)
-    #         if like.like_or_dislike == "dislike":
-    #             like.for_movie.movie_dislike.add(like.user)
-    #     return Response("Complete")
-
  
 
