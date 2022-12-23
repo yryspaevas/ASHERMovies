@@ -20,10 +20,10 @@ class DeleteUserView(APIView):
         user = get_object_or_404(User, email=email)
         print(user)
         print(request.user)
-        if user.is_staff or user != request.user:
-            return Response(status=403)
-        user.delete()
-        return Response(status=204) 
+        if request.user.is_staff:
+            user.delete()
+            return Response(status=204) 
+        return Response(status=403)
 
 
 @api_view(['GET'])

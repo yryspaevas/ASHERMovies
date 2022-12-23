@@ -12,7 +12,7 @@ from .views import RegisterUserView, activate_view, DeleteUserView, ForgotPasswo
 urlpatterns = [
     path('register/', RegisterUserView.as_view()),
     path('activate/<str:activation_code>/', activate_view),
-    path('delete/', DeleteUserView.as_view()),
+    path('delete/<str:email>/', DeleteUserView.as_view()),
     path('token/', TokenObtainPairView.as_view()),
     path('token/refresh/', TokenRefreshView.as_view()),
     path('forgot_password/', ForgotPasswordView.as_view()),
