@@ -1,5 +1,7 @@
 from django.db import models
+from django.db.models import Q
 from checkaccount.models import User
+
 
 # GENRE = [
 #     ('ACTION', 'Action'),
@@ -15,16 +17,27 @@ from checkaccount.models import User
 #     ('WESTERN', 'Western')
 # ]
 
-class Genre(models.Model):
-    title = models.CharField(max_length=100)
 
-    def __str__(self):
+class GenreYear:
+    def get_genres(self):
+        return Genre.objects.all()
+    
+    def get_years(self):
+        return Movie.objects.filter(draft=False).values("created_year")
+
+    
+
+class Genre(models.Model):
+    title = models.CharField(max_length=25)
+
+    def ____str____(self) -> str:
         return self.title
     
     class Meta:
         verbose_name = "Жанр"
         verbose_name_plural = "Жанры"
 
+    
 class Country(models.Model):
     title = models.CharField(max_length=100)
 
@@ -36,7 +49,7 @@ class Country(models.Model):
         verbose_name_plural = "Страны"
 
 
-class Movie(models.Model):
+class Movie(GenreYear,models.Model):
     genre = models.ManyToManyField(Genre, blank=True)
     country = models.ForeignKey(Country, related_name='country_movie', on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
@@ -67,11 +80,4 @@ class Movie(models.Model):
         return 0
 
 
-# class MovieCountViews(models.Model):
-#     # привязка к пользователю (сессии пользователя)
-#     sesId = models.CharField(max_length=150, db_index=True)
-#     # привязка к посту 
-#     movieId = models.ForeignKey(Movie, blank=True, null=True, default=None, on_delete=models.CASCADE)
-    
-#     def __str__(self):
-#         return '{}'.format(self.sesId)
+

@@ -22,10 +22,9 @@ class MovieAdmin(admin.ModelAdmin):
 admin.site.register(Genre)
 admin.site.register(Country)
 admin.site.register(Movie, MovieAdmin)
+admin.site.site_title = "Django Movies"
+admin.site.site_header = "Django Movies"
 admin.site.register(Comment)
 admin.site.register(Rating)
 admin.site.register(Favourite)
-# admin.site.register(MovieCountViews)
-# admin.site.register(CommentInline)
-# admin.site.register(RatingInline)
-# admin.site.register(FavouriteInline)
+
