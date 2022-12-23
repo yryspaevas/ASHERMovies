@@ -65,6 +65,7 @@ class User(AbstractUser):
     #     # send_mail("Activate account", message, 'admin@admin.com', recipient_list=[self.email])
     #     send_activation_code.delay()
 
+
    
     @staticmethod
     def generate_activation_code():
