@@ -2,7 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from review.models import Like
 
 from django.shortcuts import render, get_object_or_404
-from rest_framework.decorators import api_view, action
+from rest_framework.decorators import action
 from django.db.models import Q
 from rest_framework.response import Response
 
